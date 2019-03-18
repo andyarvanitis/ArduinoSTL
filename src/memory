@@ -192,5 +192,26 @@ public:
 
 #pragma GCC visibility pop
 
+#if !defined(ALREADY_INCLUDED_BOOST_SHARED_PTR)
+#define ALREADY_INCLUDED_BOOST_SHARED_PTR
+
+#include <boost/shared_ptr.hpp>
+#include <boost/make_shared.hpp>
+#include <boost/weak_ptr.hpp>
+
+namespace std {
+    template <typename T>
+    using shared_ptr = boost::shared_ptr<T>;
+
+    template<typename T, typename... Args>
+    inline auto make_shared(Args&&... args) -> shared_ptr<T> {
+        return boost::make_shared<T>(boost::forward<Args>(args)...);
+    }
+
+    template <typename T>
+    using weak_ptr = boost::weak_ptr<T>;
+}
+#endif
+
 #endif
 

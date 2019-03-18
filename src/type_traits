@@ -88,5 +88,31 @@ namespace std{
 
 #pragma GCC visibility pop
 
+#if !defined(ALREADY_INCLUDED_BOOST_TYPE_TRAITS)
+#define ALREADY_INCLUDED_BOOST_TYPE_TRAITS
+
+#include <boost/type_traits/is_same.hpp>
+#include <boost/utility/enable_if.hpp>
+
+namespace std {
+	template <typename T>
+	using remove_reference = boost::remove_reference<T>;
+
+    template <class _Tp>
+    struct add_rvalue_reference {
+        typedef typename remove_reference<_Tp>::type&& type;
+    };
+
+    template <class _Tp>
+    typename add_rvalue_reference<_Tp>::type declval() noexcept;
+
+	template <typename T, typename U>
+	using is_same = boost::move_detail::is_same<T,U>;
+
+	template<bool B, class T = void >
+	using enable_if = boost::enable_if_c<B, T>;
+}
+#endif
+
 #endif
 

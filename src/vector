@@ -166,12 +166,20 @@ namespace std{
 			return data;
 		}
 
+		inline const_iterator cbegin() const {
+			return begin();
+		}
+
 		inline iterator end(){
 			return (data + elements);
 		}
 
 		inline const_iterator end() const{
 			return (data + elements);
+		}
+
+		inline const_iterator cend() const {
+			return end();
 		}
 
 		inline reverse_iterator rbegin(){
@@ -265,6 +273,11 @@ namespace std{
 			}
 			data[index] = x;
 			return (data + index);
+		}
+
+		template<class... Args>
+		_UCXXEXPORT iterator emplace(iterator pos, Args&&... args) {
+			return insert(pos, T(args...));
 		}
 
 		_UCXXEXPORT void _insert_fill(iterator position, size_type n, const T & x){

@@ -85,4 +85,23 @@ namespace std{
 
 #pragma GCC visibility pop
 
+#if !defined(ALREADY_INCLUDED_BOOST_UTILITY)
+#define ALREADY_INCLUDED_BOOST_UTILITY
+
+#include <boost/type_traits/remove_reference.hpp>
+#include <boost/move/utility.hpp>
+
+namespace std {
+	template<typename T>
+	inline auto forward(typename boost::remove_reference<T>::type& t) noexcept -> T&& {
+		return boost::forward<T>(t);
+	}
+
+	template<typename T>
+	inline auto move(T&& t) noexcept -> typename boost::remove_reference<T>::type&& {
+		return static_cast<typename boost::remove_reference<T>::type&&>(t);
+	}
+}
+#endif
+
 #endif	//__STD_HEADER_UTILITY
